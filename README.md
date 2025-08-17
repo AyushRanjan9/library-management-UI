@@ -68,3 +68,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+mkdir clone-UI && cd clone-UI \
+&& git clone https://github.com/AyushRanjan9/library-management-UI.git \
+&& cd library-management-UI \
+&& git fetch --all \
+&& git checkout -b my-UI-project origin/Lib-UI \
+&& npm install \
+&& npm run dev   # or: npm start
