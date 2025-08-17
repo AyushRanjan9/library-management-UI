@@ -11,7 +11,7 @@ const BooksList = () => {
 
     useEffect(() => {
         // Fetch all books from API
-        axios.get('http://localhost:3000/api/books')
+        axios.get('http://localhost:5000/api/books')
             .then(response => {
                 if (response.data.success) {
                     setBooks(response.data.data);
@@ -24,7 +24,7 @@ const BooksList = () => {
 
     const handleTileClick = (bookId) => {
         // Fetch details of the clicked book
-        axios.get(`http://localhost:3000/api/books/${bookId}`)
+        axios.get(`http://localhost:5000/api/books/${bookId}`)
             .then(response => {
                 if (response.data.success) {
                     setSelectedBook(response.data.data);
@@ -41,6 +41,25 @@ const BooksList = () => {
         setSelectedBook(null);
     };
 
+    // Function to refresh book data after issuing
+    const refreshBookData = async (bookId) => {
+        try {
+            // Refresh the specific book details
+            const bookResponse = await axios.get(`http://localhost:5000/api/books/${bookId}`);
+            if (bookResponse.data.success) {
+                setSelectedBook(bookResponse.data.data);
+            }
+
+            // Refresh the entire books list
+            const booksResponse = await axios.get('http://localhost:5000/api/books');
+            if (booksResponse.data.success) {
+                setBooks(booksResponse.data.data);
+            }
+        } catch (error) {
+            console.error('Error refreshing book data:', error);
+        }
+    };
+
     return (
         <div className="book-tiles-container">
             {books.map((book) => (
@@ -51,7 +70,11 @@ const BooksList = () => {
             ))}
             
             {isPopupOpen && selectedBook && (
-                <BookDetailPopup book={selectedBook} onClose={handleClosePopup} />
+                <BookDetailPopup 
+                    book={selectedBook} 
+                    onClose={handleClosePopup}
+                    onBookIssued={refreshBookData}
+                />
             )}
         </div>
     );
